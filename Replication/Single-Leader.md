@@ -1,7 +1,7 @@
 # Leader - Follower / Active - Passive / Master - Slave Replication
 
 ## Working Principle
-1. One of the Replicas is designated as the leader. This happens via a leader election algorithm (which will be discussed when we come to consistency).
+1. One of the Replicas is designated as the leader. This happens via a leader election algorithm (which will be discussed when we come to consensus).
    When the client wants to perform a write request, their requests will be sent to the leader which will then apply the changes first in its local storage.
 2. The other replicas are called as followers / slaves / secondaries. Whenever the leader writes a new data to its local storage, it also sends a change log
    to all the other replicas (In MySQL, it is called Binlog and in PostgreSQL, it is called Log sequence number) called the replication log or change stream.
@@ -32,7 +32,7 @@ While the data durability looks to be an issue, this asynchronous system of repl
 may see outdated information if the follower is lagging behind. This leads to inconsistencies between the data observed. Not all writes would have been reflected
 at the same time yielding different results. If the writes at some point stop coming to the disk, the followers will *eventually* catch up and become consistent.
 This aspect of consistency is also called **eventual consistency**. Some applications are just fine with this level of consistency. 
-Here are some of the illustration mechanism:
+Here are some of the illustrations:
 
 Consider a situation where there are two comments made concurrently to a post on instagram: 
 - How does it matter if the comment 1 came first and comment 2 came second or vice versa. At the end both the comments arrived.
